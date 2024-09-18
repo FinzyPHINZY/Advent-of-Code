@@ -21,36 +21,68 @@
 // Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
 
 const cubeConundrum = (gameData) => {
-  let validGamesSum = 0;
+  let validGamesSum = 0
   gameData.forEach((game) => {
-    const maxCubes = { red: 12, green: 13, blue: 14 };
-    let [gameID, colorsData] = game.split(": ");
-    gameID = parseInt(gameID.replace("Game ", ""), 10);
+    const maxCubes = { red: 12, green: 13, blue: 14 }
+    let [gameID, colorsData] = game.split(': ')
+    gameID = parseInt(gameID.replace('Game ', ''), 10)
 
-    const groups = colorsData.split("; ");
-    let isValid = true;
+    const groups = colorsData.split('; ')
+    let isValid = true
     groups.forEach((group) => {
-      const colors = group.split(", ");
+      const colors = group.split(', ')
 
       colors.forEach((entry) => {
-        const [count, color] = entry.split(" ");
-        if (count > maxCubes[color]) isValid = false;
-      });
-    });
+        const [count, color] = entry.split(' ')
+        if (count > maxCubes[color]) isValid = false
+      })
+    })
 
     if (isValid) {
-      validGamesSum += gameID;
+      validGamesSum += gameID
     }
-  });
-  return validGamesSum;
-};
+  })
+  return validGamesSum
+}
 
 const input = [
-  "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
-  "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
-  "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
-  "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
-  "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
-];
+  'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green',
+  'Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue',
+  'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red',
+  'Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red',
+  'Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green',
+]
 
-console.log(cubeConundrum(input));
+// console.log(cubeConundrum(input));
+
+// Trebuchet
+// Function takes in lines of text.
+// on each line,  the sum of the first first digit and the last digit on each line.
+
+let inputLines = ['1abc2', 'pqr3stu8vwx', 'a1b2c3d4e5f', 'treb7uchet'] - 142
+
+const fs = require('fs')
+
+function treb7uchet(input) {
+  // convert input to array
+  const values = fs.readFileSync('./trebuchet/Trebuchet.txt', 'utf-8')
+
+  // for each item in the array, filter out the items that arent numbers characters
+
+  return values
+    .split('\n')
+    .map((item) =>
+      item
+        .split('')
+        .filter((char) => !isNaN(parseInt(char, 10)))
+        .join('')
+    )
+    .map((item) =>
+      Number(item.length > 1 ? item.at(0) + item.at(-1) : item.repeat(2))
+    )
+    .reduce((acc, num) => acc + num, 0)
+
+  // check if the length is greater than 1. if it is, return the first and last number. else return the single number repeated.
+}
+
+console.log(treb7uchet(inputLines))
