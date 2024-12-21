@@ -41,3 +41,81 @@
 // To find the total distance between the left list and the right list, add up the distances between all of the pairs you found. In the example above, this is 2 + 1 + 0 + 1 + 2 + 5, a total distance of 11!
 
 // Your actual left and right lists contain many location IDs. What is the total distance between your lists?
+
+// Takes in an two lists.
+// Returns the total distance between the two lists after pairing them together by the smallest of each list.
+// import the input list
+// convert it into two lists
+// iteratively, find the smallest of each list.
+// find the difference between the two smallest number.
+// add the difference to the result.
+// do this till the end of the list.
+// this will give the total distance between the two lists.
+
+const fs = require('fs');
+
+const listOne = [];
+const listTwo = [];
+
+try {
+  const data = fs.readFileSync('./input.txt', 'utf-8');
+
+  const lines = data.trim().split('\n');
+
+  lines.forEach((line) => {
+    const [first, second] = line.trim().split(/\s+/);
+    listOne.push(parseInt(first, 10));
+    listTwo.push(parseInt(second, 10));
+  });
+} catch (error) {
+  console.error('Error reading file:', err);
+  return;
+}
+
+const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; ++i) {
+    let temp = arr[i];
+
+    let position = i - 1;
+
+    while (position >= 0) {
+      if (arr[position] > temp) {
+        arr[position + 1] = arr[position];
+        position--;
+      } else {
+        break;
+      }
+    }
+
+    arr[position + 1] = temp;
+  }
+  return arr;
+};
+
+const sortedListOne = insertionSort(listOne);
+const sortedListTwo = insertionSort(listTwo);
+
+const historianHysteria = (arr1, arr2) => {
+  let difference = 0;
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] > arr2[i]) {
+      difference += arr1[i] - arr2[i];
+    } else if (arr1[i] < arr2[i]) {
+      difference += arr2[i] - arr1[i];
+    } else {
+      difference += 0;
+    }
+  }
+
+  return difference;
+};
+
+console.log(historianHysteria(sortedListOne, sortedListTwo));
+
+// 3   4
+// 4   3
+// 2   5
+// 1   3
+// 3   9
+// 3   3
