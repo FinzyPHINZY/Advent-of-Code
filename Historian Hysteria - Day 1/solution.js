@@ -112,10 +112,3 @@ const historianHysteria = (arr1, arr2) => {
 };
 
 console.log(historianHysteria(sortedListOne, sortedListTwo));
-
-// 3   4
-// 4   3
-// 2   5
-// 1   3
-// 3   9
-// 3   3
